@@ -5,9 +5,10 @@ import openai
 import time
 import threading
 import random
+import requests
 
 # Здесь вставьте ваш API-ключ GPT-3.5
-gpt_api_key = "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"
+gpt_api_key = ""
 
 # Время задержки между запросами (в секундах) для каждого пользователя
 request_delay = 2
@@ -147,5 +148,5 @@ def handle_incoming_messages(comunity_token):
                     threads.remove(thread)
 
 if __name__ == "__main__":
-    comunity_token = "vk1.a.1Kw54SwJgb_n57Z5aXt9eOyxiPQ3mPi1I58UfEiTLKyAc5GOt9r6t3dNMqUyoe8sqmxMiEbZmI4VVr0Yv8wrhjMT_7MOU_msPbKFego9umIikIpPCo2r93sSFPQED-nSHF4ZG1mGm1l9mNAGrIMR6G7Os_A2Oo93JRDmHTcs9JSNo7nQK6eJ0CwboRvWk96bAeIcoEbg58r33mXDSb1XhQ"  # Замените на токен вашего сообщества VK
+    comunity_token = ""  # Замените на токен вашего сообщества VK
     handle_incoming_messages(comunity_token)
