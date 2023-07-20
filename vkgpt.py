@@ -6,8 +6,8 @@ import time
 import threading
 import random
 
-# Здесь вставьте ваш API-ключ GPT-3.5-4
-gpt_api_key = " "
+# Здесь вставьте ваш API-ключ GPT-3.5
+gpt_api_key = "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"
 
 # Время задержки между запросами (в секундах) для каждого пользователя
 request_delay = 2
@@ -69,7 +69,7 @@ def handle_incoming_messages(comunity_token):
         return any(topic in message.lower() for topic in forbidden_topics)
 
     def respond_to_message(event):
-        current_time = time.time()  # Объявляем и присваиваем переменную current_time здесь
+        current_time = time.time()
 
         try:
             user_message = event.text
@@ -108,22 +108,20 @@ def handle_incoming_messages(comunity_token):
                     # Получение предыдущего ответа пользователя
                     context = user_data.get(user_id, {}).get("last_response")
 
+                    # Получаем предсказание GPT-3 с учетом контекста
                     response = generate_gpt_response(user_message, context=context)
 
                     # Сбрасываем флаг обработки запроса
                     user_data[user_id]["is_processing"] = False
+
+                    # Обновление контекста для данного пользователя
+                    user_data[user_id]["last_response"] = response
 
             vk.messages.send(
                 peer_id=event.peer_id,
                 message=response,
                 random_id=get_random_id(),
             )
-
-            # Обновление времени последнего запроса и предыдущего ответа для данного пользователя
-            user_data[user_id] = {
-                "last_request_time": current_time,
-                "last_response": response,
-            }
 
         except Exception as e:
             print(f"Возникло исключение: {e}")
@@ -149,5 +147,5 @@ def handle_incoming_messages(comunity_token):
                     threads.remove(thread)
 
 if __name__ == "__main__":
-    comunity_token = " "  # Замените на токен вашего сообщества VK
+    comunity_token = "vk1.a.1Kw54SwJgb_n57Z5aXt9eOyxiPQ3mPi1I58UfEiTLKyAc5GOt9r6t3dNMqUyoe8sqmxMiEbZmI4VVr0Yv8wrhjMT_7MOU_msPbKFego9umIikIpPCo2r93sSFPQED-nSHF4ZG1mGm1l9mNAGrIMR6G7Os_A2Oo93JRDmHTcs9JSNo7nQK6eJ0CwboRvWk96bAeIcoEbg58r33mXDSb1XhQ"  # Замените на токен вашего сообщества VK
     handle_incoming_messages(comunity_token)
